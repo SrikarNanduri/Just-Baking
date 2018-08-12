@@ -22,11 +22,13 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Ba
 
     Context context;
     private List<BakingResponse> mBakingList;
+    private Integer[] images;
     private LayoutInflater mInflater;
 
-    public RecipeListAdapter(Context context, List<BakingResponse> mBakingList) {
+    public RecipeListAdapter(Context context, List<BakingResponse> mBakingList, Integer[] images) {
         this.context = context;
         this.mBakingList = mBakingList;
+        this.images = images;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -39,9 +41,8 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Ba
 
     @Override
     public void onBindViewHolder(@NonNull RecipeListAdapter.BakingViewHolder holder, int position) {
-
-       String imagePath = mBakingList.get(position).getImage();
-        Picasso.with(context).load(R.drawable.ic_action_placeholder_light)
+        
+        Picasso.with(context).load(String.valueOf(images))
                 .placeholder(R.drawable.ic_action_placeholder_light)
                 .into(holder.recipeIv);
         holder.recipeNameTv.setText(mBakingList.get(position).getName());

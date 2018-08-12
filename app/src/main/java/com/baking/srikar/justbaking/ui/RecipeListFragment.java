@@ -31,6 +31,12 @@ public class RecipeListFragment extends Fragment {
     RecyclerView homeRv;
 
     RecipeListAdapter recipeListAdapter;
+    Integer[] images = {
+            R.drawable.nutella,
+            R.drawable.brownies,
+            R.drawable.moistyellowcake,
+            R.drawable.cheese
+    };
 
     public RecipeListFragment() {
     }
@@ -47,7 +53,7 @@ public class RecipeListFragment extends Fragment {
     public void generateBakingList(List<BakingResponse> bakingResponses) {
         homeRv.setLayoutManager(new LinearLayoutManager(getContext()));
         homeRv.setHasFixedSize(true);
-        recipeListAdapter = new RecipeListAdapter(getContext(), bakingResponses);
+        recipeListAdapter = new RecipeListAdapter(getContext(), bakingResponses, images);
         homeRv.setAdapter(recipeListAdapter);
 
     }
