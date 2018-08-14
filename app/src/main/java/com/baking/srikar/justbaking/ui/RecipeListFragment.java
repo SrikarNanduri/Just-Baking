@@ -34,7 +34,7 @@ public class RecipeListFragment extends Fragment {
     Integer[] images = {
             R.drawable.nutella,
             R.drawable.brownies,
-            R.drawable.moistyellowcake,
+            R.drawable.yellowcake,
             R.drawable.cheese
     };
 
