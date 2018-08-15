@@ -15,8 +15,12 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         String  bakinglist = getIntent().getStringExtra("bakinglistobj");
-        Gson gson = new Gson();
+        Bundle bundle = new Bundle();
+        bundle.putString("bakinglist", bakinglist);
+        RecipeDetailsListFragment fragment = new RecipeDetailsListFragment();
+        fragment.setArguments(bundle);
+       /* Gson gson = new Gson();
         BakingResponse bakingResponse = gson.fromJson(bakinglist, BakingResponse.class);
-        Log.v("Json Data", bakingResponse.getName());
+        Log.v("Json Data", bakingResponse.getName());*/
     }
 }
