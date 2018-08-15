@@ -1,5 +1,6 @@
 package com.baking.srikar.justbaking.ui;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -27,5 +28,11 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setTitle("Baking Time");
+
+        RecipeListFragment recipeListFragment = new RecipeListFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                       .add(R.id.recipe_fragment_body_part, recipeListFragment)
+                       .commit();
     }
 }

@@ -1,6 +1,7 @@
 package com.baking.srikar.justbaking.Adaptors;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.baking.srikar.justbaking.Models.BakingResponse;
 import com.baking.srikar.justbaking.R;
+import com.baking.srikar.justbaking.ui.DetailsActivity;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -40,7 +43,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Ba
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecipeListAdapter.BakingViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecipeListAdapter.BakingViewHolder holder, final int position) {
       //  holder.recipeIv.setImageResource(images[position]);
         Picasso.with(context).load(images[position])
                 .placeholder(R.drawable.ic_action_placeholder_light)
@@ -48,6 +51,16 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Ba
                 .into(holder.recipeIv);
         holder.recipeNameTv.setText(mBakingList.get(position).getName());
         holder.recipeServings.setText(Integer.toString(mBakingList.get(position).getServings()));
+        holder.recipeIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, DetailsActivity.class);
+                Gson gson = new Gson();
+                String bakingList = gson.toJson(mBakingList.get(position));
+               i.putExtra("bakinglistobj", bakingList);
+               context.startActivity(i);
+            }
+        });
     }
 
     @Override
