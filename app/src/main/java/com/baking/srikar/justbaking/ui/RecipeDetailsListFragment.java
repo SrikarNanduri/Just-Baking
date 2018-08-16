@@ -53,7 +53,7 @@ public class RecipeDetailsListFragment extends Fragment {
     }
 
     public void ingredients(BakingResponse bakingResponse){
-        List<String> ingridentList =new ArrayList<String>();
+        List<String> ingredientList =new ArrayList<String>();
         for(int i=0; i<bakingResponse.getIngredients().size(); i++){
             String ingridents = bakingResponse.getIngredients().get(i).getIngredient();
             double quantityValue = bakingResponse.getIngredients().get(i).getQuantity();
@@ -66,16 +66,16 @@ public class RecipeDetailsListFragment extends Fragment {
                 ingridentsListString = ingridents + "(" +  quantityValue + " " + measure + ")";
             }
 
-            ingridentList.add(ingridentsListString);
+            ingredientList.add(ingridentsListString);
         }
-        Log.v("IngridentsList(0)", ingridentList.get(1));
+        Log.v("IngridentsList(0)", ingredientList.get(1));
     StringBuilder result = new StringBuilder();
-    for (int j=0; j<ingridentList.size() - 1; j++) {
-        result.append(ingridentList.get(j));
+    for (int j=0; j<ingredientList.size() - 1; j++) {
+        result.append(ingredientList.get(j));
         result.append(",");
         result.append(System.lineSeparator());
     }
-    result.append(ingridentList.get(ingridentList.size()-1));
+    result.append(ingredientList.get(ingredientList.size()-1));
         Log.v("whole list", String.valueOf(result));
 
         ingredientsTv.setText(String.valueOf(result));
