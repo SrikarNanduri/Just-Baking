@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class RecipeDetailsListFragment extends Fragment {
 
@@ -35,11 +36,19 @@ public class RecipeDetailsListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recipe_details_fragment_body, container, false);
+        ButterKnife.bind(this, rootView);
         String bakingList = getArguments().getString("bakinglist");
         Gson gson = new Gson();
         BakingResponse bakingResponse = gson.fromJson(bakingList, BakingResponse.class);
         Log.v("Json Data", bakingResponse.getName());
         ingredients(bakingResponse);
+        /*final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        ingredientsRv.setLayoutManager(layoutManager);
+        ingredientsRv.setHasFixedSize(true);
+        ingredientsAdapter = new IngredientsAdapter(getContext(), ingridentList);
+        ingredientsRv.setAdapter(ingredientsAdapter);*/
+
         return rootView;
     }
 
@@ -59,8 +68,17 @@ public class RecipeDetailsListFragment extends Fragment {
 
             ingridentList.add(ingridentsListString);
         }
-        Log.v("IngridentsList(0)", ingridentList.get(1) );
+        Log.v("IngridentsList(0)", ingridentList.get(1));
+    StringBuilder result = new StringBuilder();
+    for (int j=0; j<ingridentList.size() - 1; j++) {
+        result.append(ingridentList.get(j));
+        result.append(",");
+        result.append(System.lineSeparator());
+    }
+    result.append(ingridentList.get(ingridentList.size()-1));
+        Log.v("whole list", String.valueOf(result));
 
+        ingredientsTv.setText(String.valueOf(result));
     }
 
 }

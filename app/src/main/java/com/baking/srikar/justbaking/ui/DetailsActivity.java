@@ -20,8 +20,11 @@ public class DetailsActivity extends AppCompatActivity {
         bundle.putString("bakinglist", bakinglist);
         RecipeDetailsListFragment fragment = new RecipeDetailsListFragment();
         fragment.setArguments(bundle);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.recipe_details_fragment_body_part, fragment)
+
+        fragmentManager.beginTransaction()
+                .add(R.id.recipe_details_fragment_body_part, fragment)
                 .commit();
        /* Gson gson = new Gson();
         BakingResponse bakingResponse = gson.fromJson(bakinglist, BakingResponse.class);

@@ -39,7 +39,6 @@ public class RecipeDetailsListAdapter extends RecyclerView.Adapter<RecipeDetails
     @Override
     public void onBindViewHolder(@NonNull RecipeDetailsListAdapter.RecipeDetailsViewHolder holder, int position) {
 
-        holder.detailsTv.setText(mBakingList.get(position).getSteps().get(position).getDescription());
 
     }
 
@@ -51,7 +50,7 @@ public class RecipeDetailsListAdapter extends RecyclerView.Adapter<RecipeDetails
     class RecipeDetailsViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.details_list_tv)
-        TextView detailsTv;
+        TextView stepTv;
 
         public RecipeDetailsViewHolder(View itemView) {
             super(itemView);
