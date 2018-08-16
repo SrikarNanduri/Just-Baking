@@ -3,6 +3,7 @@ package com.baking.srikar.justbaking.Adaptors;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,10 @@ import butterknife.ButterKnife;
 public class RecipeDetailsListAdapter extends RecyclerView.Adapter<RecipeDetailsListAdapter.RecipeDetailsViewHolder> {
 
     Context context;
-    private List<BakingResponse> mBakingList;
+    private BakingResponse mBakingList;
     private LayoutInflater mInflater;
 
-    public RecipeDetailsListAdapter(Context context, List<BakingResponse> mBakingList) {
+    public RecipeDetailsListAdapter(Context context, BakingResponse mBakingList) {
         this.context = context;
         this.mBakingList = mBakingList;
         mInflater = LayoutInflater.from(context);
@@ -39,12 +40,15 @@ public class RecipeDetailsListAdapter extends RecyclerView.Adapter<RecipeDetails
     @Override
     public void onBindViewHolder(@NonNull RecipeDetailsListAdapter.RecipeDetailsViewHolder holder, int position) {
 
+        holder.stepTv.setText(mBakingList.getSteps().get(position).getShortDescription());
+        Log.v("Steps size", String.valueOf(mBakingList.getSteps().size()));
+        Log.v("position", String.valueOf(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return mBakingList.size();
+        return mBakingList.getSteps().size();
     }
 
     class RecipeDetailsViewHolder extends RecyclerView.ViewHolder {
