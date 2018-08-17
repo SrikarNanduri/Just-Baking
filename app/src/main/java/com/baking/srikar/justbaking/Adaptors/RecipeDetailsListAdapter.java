@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.baking.srikar.justbaking.Models.BakingResponse;
+import com.baking.srikar.justbaking.Models.Step;
 import com.baking.srikar.justbaking.R;
 
 import java.util.List;
@@ -20,12 +21,12 @@ import butterknife.ButterKnife;
 public class RecipeDetailsListAdapter extends RecyclerView.Adapter<RecipeDetailsListAdapter.RecipeDetailsViewHolder> {
 
     Context context;
-    private BakingResponse mBakingList;
+    private List<Step> mStepsList;
     private LayoutInflater mInflater;
 
-    public RecipeDetailsListAdapter(Context context, BakingResponse mBakingList) {
+    public RecipeDetailsListAdapter(Context context,  List<Step> mStepsList) {
         this.context = context;
-        this.mBakingList = mBakingList;
+        this.mStepsList = mStepsList;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -40,15 +41,15 @@ public class RecipeDetailsListAdapter extends RecyclerView.Adapter<RecipeDetails
     @Override
     public void onBindViewHolder(@NonNull RecipeDetailsListAdapter.RecipeDetailsViewHolder holder, int position) {
 
-        holder.stepTv.setText(mBakingList.getSteps().get(position).getShortDescription());
-        Log.v("Steps size", String.valueOf(mBakingList.getSteps().size()));
+        holder.stepTv.setText(mStepsList.get(position).getShortDescription());
+        Log.v("Steps size", String.valueOf(mStepsList.size()));
         Log.v("position", String.valueOf(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return mBakingList.getSteps().size();
+        return mStepsList.size();
     }
 
     class RecipeDetailsViewHolder extends RecyclerView.ViewHolder {

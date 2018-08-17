@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.baking.srikar.justbaking.Adaptors.RecipeDetailsListAdapter;
 import com.baking.srikar.justbaking.Adaptors.RecipeListAdapter;
 import com.baking.srikar.justbaking.Models.BakingResponse;
+import com.baking.srikar.justbaking.Models.Step;
 import com.baking.srikar.justbaking.R;
 import com.google.gson.Gson;
 
@@ -55,7 +56,8 @@ public class RecipeDetailsListFragment extends Fragment {
         stepsRv.setLayoutManager(new LinearLayoutManager(getContext()));
         stepsRv.setHasFixedSize(true);
         stepsRv.setNestedScrollingEnabled(false);
-        recipeDetailsListAdapter = new RecipeDetailsListAdapter(getContext(), bakingResponse);
+        List<Step> stepsList = bakingResponse.getSteps();
+        recipeDetailsListAdapter = new RecipeDetailsListAdapter(getContext(), stepsList);
         stepsRv.setAdapter(recipeDetailsListAdapter);
 
     }
@@ -76,7 +78,6 @@ public class RecipeDetailsListFragment extends Fragment {
             }
             ingredientList.add(ingridentsListString);
         }
-        Log.v("IngridentsList(0)", ingredientList.get(1));
 
         StringBuilder result = new StringBuilder();
         for (int j=0; j<ingredientList.size() - 1; j++) {
