@@ -1,6 +1,7 @@
 package com.baking.srikar.justbaking.Adaptors;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.baking.srikar.justbaking.Models.BakingResponse;
 import com.baking.srikar.justbaking.Models.Step;
 import com.baking.srikar.justbaking.R;
+import com.baking.srikar.justbaking.ui.StepDetailsActivity;
 
 import java.util.List;
 
@@ -39,11 +41,20 @@ public class RecipeDetailsListAdapter extends RecyclerView.Adapter<RecipeDetails
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecipeDetailsListAdapter.RecipeDetailsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecipeDetailsListAdapter.RecipeDetailsViewHolder holder, final int position) {
 
         holder.stepTv.setText(mStepsList.get(position).getShortDescription());
         Log.v("Steps size", String.valueOf(mStepsList.size()));
         Log.v("position", String.valueOf(position));
+        holder.stepTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(context, StepDetailsActivity.class);
+                i.putExtra("stepsList", mStepsList.get(position));
+                context.startActivity(i);
+            }
+        });
 
     }
 

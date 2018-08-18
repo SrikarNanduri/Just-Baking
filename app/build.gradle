@@ -50,4 +50,7 @@ dependencies {
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
     annotationProcessor "org.projectlombok:lombok:1.18.2"
 
+    //ExoPlayer
+    implementation 'com.google.android.exoplayer:exoplayer:r2.2.0'
+
 }
