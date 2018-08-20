@@ -52,7 +52,6 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
     private static final String TAG = StepDetailsListFragment.class.getSimpleName();
 
     int positionValue = 1;
-    int previousPositionValue = 1;
 
     @BindView(R.id.stepDetail_tv)
     TextView stepsTv;
@@ -132,12 +131,16 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
                                 previousPositionValue++;*/
                                previousButton.setEnabled(true);
                             }
-                            releasePlayer();
-                           if(position + positionValue >= 0)
-                            exoPlayer(steps.get((position+positionValue) - 1));
 
-                           stepsTv.setText(steps.get((position + positionValue) - 1).getDescription());
-                            positionValue--;
+
+                            if(position != steps.size() -1){
+                               nextButton.setEnabled(true);
+                            }
+
+                               releasePlayer();
+                               exoPlayer(steps.get((position + positionValue) - 1));
+                               stepsTv.setText(steps.get((position + positionValue) - 1).getDescription());
+                               positionValue--;
                         }
                     });
             }
