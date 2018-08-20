@@ -110,10 +110,12 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
                         public void onClick(View v) {
                             releasePlayer();
                             exoPlayer(steps.get(position + positionValue));
+                            Log.v("previous Data", String.valueOf((steps.get((position+positionValue) - 1))));
                             if(steps.size() - 1 > position + positionValue) {
                                 previousButton.setEnabled(true);
                                 stepsTv.setText(steps.get(position + positionValue).getDescription());
                                 positionValue++;
+
                         } else {
                                 stepsTv.setText(steps.get(steps.size() - 1).getDescription());
                                 nextButton.setEnabled(false);
@@ -124,12 +126,18 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
                     previousButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            releasePlayer();
+
                            if (position > 0) {
                                /* exoPlayer(steps.get(position - previousPositionValue));
                                 previousPositionValue++;*/
                                previousButton.setEnabled(true);
                             }
+                            releasePlayer();
+                           if(position + positionValue >= 0)
+                            exoPlayer(steps.get((position+positionValue) - 1));
+
+                           stepsTv.setText(steps.get((position + positionValue) - 1).getDescription());
+                            positionValue--;
                         }
                     });
             }
