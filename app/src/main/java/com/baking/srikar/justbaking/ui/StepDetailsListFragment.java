@@ -127,20 +127,27 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
                         public void onClick(View v) {
 
                            if (position > 0) {
-                               /* exoPlayer(steps.get(position - previousPositionValue));
-                                previousPositionValue++;*/
                                previousButton.setEnabled(true);
                             }
 
-
-                            if(position != steps.size() -1){
+                            if(position + positionValue == 0){
+                               previousButton.setEnabled(false);
+                            } else if(position + positionValue - 1 == steps.size() - 1){
                                nextButton.setEnabled(true);
                             }
+                            if((position + positionValue) - 1 !=  0) {
+                                releasePlayer();
+                                exoPlayer(steps.get((position + positionValue) - 1));
+                                stepsTv.setText(steps.get((position + positionValue) - 1).getDescription());
+                                positionValue--;
+                            } else {
+                                releasePlayer();
+                                exoPlayer(steps.get((position + positionValue) - 1));
+                                stepsTv.setText(steps.get((position + positionValue) - 1).getDescription());
+                                positionValue--;
+                                previousButton.setEnabled(false);
+                            }
 
-                               releasePlayer();
-                               exoPlayer(steps.get((position + positionValue) - 1));
-                               stepsTv.setText(steps.get((position + positionValue) - 1).getDescription());
-                               positionValue--;
                         }
                     });
             }
