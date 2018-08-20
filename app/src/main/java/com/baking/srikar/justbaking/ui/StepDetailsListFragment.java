@@ -132,7 +132,9 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
 
                             if(position + positionValue == 0){
                                previousButton.setEnabled(false);
-                            } else if(position + positionValue - 1 == steps.size() - 1){
+                            }
+
+                            if(position + positionValue == steps.size() - 1){
                                nextButton.setEnabled(true);
                             }
                             if((position + positionValue) - 1 !=  0) {
