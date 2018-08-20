@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.baking.srikar.justbaking.Models.Step;
 import com.baking.srikar.justbaking.R;
@@ -31,10 +32,14 @@ public class StepDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Baking Time");
 
-        Step steps = getIntent().getParcelableExtra("stepsList");
+        String steps = getIntent().getStringExtra("stepsList");
+        Log.v("StepsData", steps);
+        int position = getIntent().getIntExtra("position",0);
         StepDetailsListFragment stepDetailsListFragment = new StepDetailsListFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("Steps", steps);
+        bundle.putInt("stepposition", position);
+        bundle.putString("Steps", steps);
+
         stepDetailsListFragment.setArguments(bundle);
 
         FragmentManager fragmentManager = getSupportFragmentManager();

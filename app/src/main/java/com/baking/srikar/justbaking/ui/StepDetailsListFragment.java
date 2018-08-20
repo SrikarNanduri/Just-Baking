@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,10 @@ import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,11 +51,20 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
 
     private static final String TAG = StepDetailsListFragment.class.getSimpleName();
 
+    int positionValue = 1;
+    int previousPositionValue = 1;
+
     @BindView(R.id.stepDetail_tv)
     TextView stepsTv;
 
     @BindView(R.id.simpleExoPlayerView)
      SimpleExoPlayerView simpleExoPlayerView;
+
+    @BindView(R.id.nextButton)
+    Button nextButton;
+
+    @BindView(R.id.previousButton)
+    Button previousButton;
 
     private SimpleExoPlayer mExoPlayer;
     private MediaSessionCompat mMediaSession;
@@ -65,23 +79,70 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.steps_details_fragment_body, container, false);
         ButterKnife.bind(this, rootView);
-        Step steps = getArguments().getParcelable("Steps");
+        Gson gson = new Gson();
+       final String  stepList = getArguments().getString("Steps");
+       final List<Step> steps = gson.fromJson(stepList, new TypeToken<List<Step>>(){}.getType());
+        final int position = getArguments().getInt("stepposition");
+        Log.v("steps", steps.toString());
+       // Log.v("position", String.valueOf(position));
         Configuration newConfig = getResources().getConfiguration();
         if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
             Toast.makeText(getContext(), "Landscape", Toast.LENGTH_LONG).show();
         } else {
             if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-                stepsTv.setText(steps.getDescription());
+                stepsTv.setText(steps.get(position).getDescription());
+                exoPlayer(steps.get(position));
+
+                if(position == 0) {
+                    previousButton.setEnabled(false);
+                } else {
+                    previousButton.setEnabled(true);
+                }
+
+                if(position == steps.size() -1){
+                    nextButton.setEnabled(false);
+                } else {
+                    nextButton.setEnabled(true);
+                }
+
+                    nextButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            releasePlayer();
+                            exoPlayer(steps.get(position + positionValue));
+                            if(steps.size() - 1 > position + positionValue) {
+                                previousButton.setEnabled(true);
+                                stepsTv.setText(steps.get(position + positionValue).getDescription());
+                                positionValue++;
+                        } else {
+                                stepsTv.setText(steps.get(steps.size() - 1).getDescription());
+                                nextButton.setEnabled(false);
+                        }
+                        }
+                    });
+
+                    previousButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            releasePlayer();
+                           if (position > 0) {
+                               /* exoPlayer(steps.get(position - previousPositionValue));
+                                previousPositionValue++;*/
+                               previousButton.setEnabled(true);
+                            }
+                        }
+                    });
             }
         }
 
-        exoPlayer(steps);
+
         return rootView;
     }
 
     public void exoPlayer(Step steps) {
         simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
         String videoURL = steps.getVideoURL();
+        Log.v("position", String.valueOf(steps.getId()));
         initializeMediaSession();
         initializePlayer(Uri.parse(videoURL));
     }
