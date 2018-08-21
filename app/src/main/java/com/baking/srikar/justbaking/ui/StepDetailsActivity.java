@@ -35,6 +35,11 @@ public class StepDetailsActivity extends AppCompatActivity {
         String steps = getIntent().getStringExtra("stepsList");
         Log.v("StepsData", steps);
         int position = getIntent().getIntExtra("position",0);
+
+        //every time if there are any configuration changes then the fragement is getting recreated and added to stack,
+        //so to avoid that we need to check if fragment is created in the host activity by checking savedInstanceState
+        //Even if you don't override onSaveInstanceState in the activity, the savedInstanceState parameter will still be
+        //non-null when restoring an Activity. It'll just be an empty Bundle.
         if(savedInstanceState  == null) {
             StepDetailsListFragment stepDetailsListFragment = new StepDetailsListFragment();
             Bundle bundle = new Bundle();
