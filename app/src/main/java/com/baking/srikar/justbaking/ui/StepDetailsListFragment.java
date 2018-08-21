@@ -89,7 +89,6 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
             playWhenReady = savedInstanceState.getBoolean("playWhenReady");
             currentWindow = savedInstanceState.getInt("currentWindow");
             playbackPosition = savedInstanceState.getLong("playBackPosition");
-            releasePlayer();
         }
 
         Gson gson = new Gson();
@@ -167,9 +166,7 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
-            simpleExoPlayerView.setPlayer(mExoPlayer);
-            mExoPlayer.setPlayWhenReady(playWhenReady);
-            mExoPlayer.seekTo(currentWindow, playbackPosition);
+
             // Set the ExoPlayer.EventListener to this activity.
             mExoPlayer.addListener(this);
 
@@ -178,7 +175,9 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource, true, false);
-
+            simpleExoPlayerView.setPlayer(mExoPlayer);
+            mExoPlayer.setPlayWhenReady(playWhenReady);
+            mExoPlayer.seekTo(currentWindow, playbackPosition);
 
         }
     }
@@ -218,9 +217,17 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
     }
 
     private void releasePlayer() {
-        mExoPlayer.stop();
-        mExoPlayer.release();
-        mExoPlayer = null;
+        if (mExoPlayer != null) {
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        releasePlayer();
     }
 
     @Override
