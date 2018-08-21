@@ -51,8 +51,6 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
 
     private static final String TAG = StepDetailsListFragment.class.getSimpleName();
 
-    int positionValue = 1;
-
     @BindView(R.id.stepDetail_tv)
     TextView stepsTv;
 
@@ -69,6 +67,7 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
     private MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
     int position;
+    List<Step> steps;
 
     public StepDetailsListFragment() {
     }
@@ -80,7 +79,7 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
         ButterKnife.bind(this, rootView);
         Gson gson = new Gson();
        final String  stepList = getArguments().getString("Steps");
-       final List<Step> steps = gson.fromJson(stepList, new TypeToken<List<Step>>(){}.getType());
+       steps = gson.fromJson(stepList, new TypeToken<List<Step>>(){}.getType());
        position = getArguments().getInt("stepposition");
         Log.v("steps", steps.toString());
        // Log.v("position", String.valueOf(position));
@@ -103,45 +102,51 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
                 } else {
                     nextButton.setEnabled(true);
                 }
-
-                nextButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        position++;
-                        releasePlayer();
-                        exoPlayer(steps.get(position));
-                        if(steps.size() - 1 > position) {
-                            previousButton.setEnabled(true);
-                            stepsTv.setText(steps.get(position).getDescription());
-                        }else {
-                            stepsTv.setText(steps.get(steps.size() - 1).getDescription());
-                            nextButton.setEnabled(false);
-                        }
-                    }
-                });
-
-                previousButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(position != steps.size()-1){
-                            nextButton.setEnabled(true);
-                        }
-                        position --;
-                        releasePlayer();
-                        exoPlayer(steps.get(position));
-                        stepsTv.setText(steps.get(position).getDescription());
-                        if(position == 0 ){
-                            previousButton.setEnabled(false);
-                        } else if(position == steps.size() - 1){
-                            nextButton.setEnabled(false);
-                        }
-                    }
-                });
+                nextBtn(steps);
+                previousBtn(steps);
             }
         }
 
 
         return rootView;
+    }
+
+    public void nextBtn(final List<Step> steps){
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                position++;
+                releasePlayer();
+                exoPlayer(steps.get(position));
+                if(steps.size() - 1 > position) {
+                    previousButton.setEnabled(true);
+                    stepsTv.setText(steps.get(position).getDescription());
+                }else {
+                    stepsTv.setText(steps.get(steps.size() - 1).getDescription());
+                    nextButton.setEnabled(false);
+                }
+            }
+        });
+    }
+
+    public void previousBtn(final List<Step> steps){
+        previousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position != steps.size()-1){
+                    nextButton.setEnabled(true);
+                }
+                position --;
+                releasePlayer();
+                exoPlayer(steps.get(position));
+                stepsTv.setText(steps.get(position).getDescription());
+                if(position == 0 ){
+                    previousButton.setEnabled(false);
+                } else if(position == steps.size() - 1){
+                    nextButton.setEnabled(false);
+                }
+            }
+        });
     }
 
     public void exoPlayer(Step steps) {
@@ -198,7 +203,7 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
 
 
         // MySessionCallback has methods that handle callbacks from a media controller.
-        //mMediaSession.setCallback(new MySessionCallback());
+        mMediaSession.setCallback(new MySessionCallback());
 
         // Start the Media Session since the activity is active.
         mMediaSession.setActive(true);
@@ -255,7 +260,7 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
 
     }
 
-   /* private class MySessionCallback extends MediaSessionCompat.Callback {
+    private class MySessionCallback extends MediaSessionCompat.Callback {
         @Override
         public void onPlay() {
             mExoPlayer.setPlayWhenReady(true);
@@ -271,5 +276,9 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
             mExoPlayer.seekTo(0);
         }
 
-    }*/
+        @Override
+        public void onSkipToNext() {
+            mExoPlayer.seekTo(100);
+        }
+    }
 }
