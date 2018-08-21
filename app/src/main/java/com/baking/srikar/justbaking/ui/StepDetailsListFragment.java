@@ -68,9 +68,9 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
     private PlaybackStateCompat.Builder mStateBuilder;
     int position;
     List<Step> steps;
-    private boolean playWhenReady;
-    private int currentWindow;
-    private long playbackPosition;
+    private boolean playWhenReady ;
+    private int currentWindow ;
+    private long playbackPosition ;
 
     public StepDetailsListFragment() {
     }
@@ -89,19 +89,15 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
             playWhenReady = savedInstanceState.getBoolean("playWhenReady");
             currentWindow = savedInstanceState.getInt("currentWindow");
             playbackPosition = savedInstanceState.getLong("playBackPosition");
+            releasePlayer();
         }
 
         Gson gson = new Gson();
-       final String  stepList = getArguments().getString("Steps");
+        String  stepList = getArguments().getString("Steps");
        steps = gson.fromJson(stepList, new TypeToken<List<Step>>(){}.getType());
        position = getArguments().getInt("stepposition");
         Log.v("steps", steps.toString());
        // Log.v("position", String.valueOf(position));
-        Configuration newConfig = getResources().getConfiguration();
-        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
-            Toast.makeText(getContext(), "Landscape", Toast.LENGTH_LONG).show();
-        } else {
-            if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
                 stepsTv.setText(steps.get(position).getDescription());
                 exoPlayer(steps.get(position));
 
@@ -118,13 +114,8 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
                 }
                 nextBtn(steps);
                 previousBtn(steps);
-            }
-        }
-
-
         return rootView;
     }
-
     public void nextBtn(final List<Step> steps){
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +155,6 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
     }
 
     public void exoPlayer(Step steps) {
-        simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
         String videoURL = steps.getVideoURL();
         Log.v("position", String.valueOf(steps.getId()));
         initializeMediaSession();
@@ -177,7 +167,9 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
-
+            simpleExoPlayerView.setPlayer(mExoPlayer);
+            mExoPlayer.setPlayWhenReady(playWhenReady);
+            mExoPlayer.seekTo(currentWindow, playbackPosition);
             // Set the ExoPlayer.EventListener to this activity.
             mExoPlayer.addListener(this);
 
@@ -185,13 +177,12 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
             String userAgent = Util.getUserAgent(getContext(), "ClassicalMusicQuiz");
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
-            mExoPlayer.prepare(mediaSource);
+            mExoPlayer.prepare(mediaSource, true, false);
 
-            simpleExoPlayerView.setPlayer(mExoPlayer);
-            mExoPlayer.setPlayWhenReady(playWhenReady);
-            mExoPlayer.seekTo(currentWindow, playbackPosition);
+
         }
     }
+
 
     private void initializeMediaSession() {
 
