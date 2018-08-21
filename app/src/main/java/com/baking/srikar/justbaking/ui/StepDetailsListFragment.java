@@ -68,6 +68,9 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
     private PlaybackStateCompat.Builder mStateBuilder;
     int position;
     List<Step> steps;
+    private boolean playWhenReady;
+    private int currentWindow;
+    private long playbackPosition;
 
     public StepDetailsListFragment() {
     }
@@ -77,6 +80,17 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.steps_details_fragment_body, container, false);
         ButterKnife.bind(this, rootView);
+
+        if(savedInstanceState == null){
+            playWhenReady = true;
+            currentWindow = 0;
+            playbackPosition = 0;
+        }else {
+            playWhenReady = savedInstanceState.getBoolean("playWhenReady");
+            currentWindow = savedInstanceState.getInt("currentWindow");
+            playbackPosition = savedInstanceState.getLong("playBackPosition");
+        }
+
         Gson gson = new Gson();
        final String  stepList = getArguments().getString("Steps");
        steps = gson.fromJson(stepList, new TypeToken<List<Step>>(){}.getType());
@@ -163,7 +177,6 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
-            simpleExoPlayerView.setPlayer(mExoPlayer);
 
             // Set the ExoPlayer.EventListener to this activity.
             mExoPlayer.addListener(this);
@@ -173,7 +186,10 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+
+            simpleExoPlayerView.setPlayer(mExoPlayer);
+            mExoPlayer.setPlayWhenReady(playWhenReady);
+            mExoPlayer.seekTo(currentWindow, playbackPosition);
         }
     }
 
@@ -280,5 +296,30 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
         public void onSkipToNext() {
             mExoPlayer.seekTo(100);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(getContext(), "landscape", Toast.LENGTH_SHORT).show();
+
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+
+            Toast.makeText(getContext(), "portrait", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        playbackPosition = mExoPlayer.getCurrentPosition();
+        currentWindow = mExoPlayer.getCurrentWindowIndex();
+        playWhenReady = mExoPlayer.getPlayWhenReady();
+        outState.putBoolean("playWhenReady", playWhenReady);
+        outState.putInt("currentWindow", currentWindow);
+        outState.putLong("playBackPosition", playbackPosition);
     }
 }
