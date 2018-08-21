@@ -68,7 +68,7 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
     private SimpleExoPlayer mExoPlayer;
     private MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
-
+    int position;
 
     public StepDetailsListFragment() {
     }
@@ -81,7 +81,7 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
         Gson gson = new Gson();
        final String  stepList = getArguments().getString("Steps");
        final List<Step> steps = gson.fromJson(stepList, new TypeToken<List<Step>>(){}.getType());
-        final int position = getArguments().getInt("stepposition");
+       position = getArguments().getInt("stepposition");
         Log.v("steps", steps.toString());
        // Log.v("position", String.valueOf(position));
         Configuration newConfig = getResources().getConfiguration();
@@ -104,7 +104,40 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
                     nextButton.setEnabled(true);
                 }
 
-                    nextButton.setOnClickListener(new View.OnClickListener() {
+                nextButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        position++;
+                        releasePlayer();
+                        exoPlayer(steps.get(position));
+                        if(steps.size() - 1 > position) {
+                            previousButton.setEnabled(true);
+                            stepsTv.setText(steps.get(position).getDescription());
+                        }else {
+                            stepsTv.setText(steps.get(steps.size() - 1).getDescription());
+                            nextButton.setEnabled(false);
+                        }
+                    }
+                });
+
+                previousButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(position != steps.size()-1){
+                            nextButton.setEnabled(true);
+                        }
+                        position --;
+                        releasePlayer();
+                        exoPlayer(steps.get(position));
+                        stepsTv.setText(steps.get(position).getDescription());
+                        if(position == 0 ){
+                            previousButton.setEnabled(false);
+                        } else if(position == steps.size() - 1){
+                            nextButton.setEnabled(false);
+                        }
+                    }
+                });
+                   /* nextButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             releasePlayer();
@@ -151,7 +184,7 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
                             }
 
                         }
-                    });
+                    });*/
             }
         }
 
