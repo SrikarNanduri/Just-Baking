@@ -174,7 +174,7 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
             String userAgent = Util.getUserAgent(getContext(), "ClassicalMusicQuiz");
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
-            mExoPlayer.prepare(mediaSource, true, false);
+            mExoPlayer.prepare(mediaSource);
             simpleExoPlayerView.setPlayer(mExoPlayer);
             mExoPlayer.setPlayWhenReady(playWhenReady);
             mExoPlayer.seekTo(currentWindow, playbackPosition);
@@ -277,7 +277,7 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
     private class MySessionCallback extends MediaSessionCompat.Callback {
         @Override
         public void onPlay() {
-            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayer.setPlayWhenReady(playWhenReady);
         }
 
         @Override

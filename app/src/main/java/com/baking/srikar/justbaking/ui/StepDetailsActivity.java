@@ -35,17 +35,19 @@ public class StepDetailsActivity extends AppCompatActivity {
         String steps = getIntent().getStringExtra("stepsList");
         Log.v("StepsData", steps);
         int position = getIntent().getIntExtra("position",0);
-        StepDetailsListFragment stepDetailsListFragment = new StepDetailsListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("stepposition", position);
-        bundle.putString("Steps", steps);
+        if(savedInstanceState  == null) {
+            StepDetailsListFragment stepDetailsListFragment = new StepDetailsListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("stepposition", position);
+            bundle.putString("Steps", steps);
 
-        stepDetailsListFragment.setArguments(bundle);
+            stepDetailsListFragment.setArguments(bundle);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.steps_details_fragment_body_part, stepDetailsListFragment)
-                .commit();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.steps_details_fragment_body_part, stepDetailsListFragment)
+                    .commit();
+        }
     }
 
     @Override
