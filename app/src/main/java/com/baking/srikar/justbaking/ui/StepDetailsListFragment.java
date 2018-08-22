@@ -80,21 +80,23 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.steps_details_fragment_body, container, false);
         ButterKnife.bind(this, rootView);
+        Gson gson = new Gson();
+        String  stepList = getArguments().getString("Steps");
+        steps = gson.fromJson(stepList, new TypeToken<List<Step>>(){}.getType());
 
         if(savedInstanceState == null){
             playWhenReady = true;
             currentWindow = 0;
             playbackPosition = 0;
+            position = getArguments().getInt("stepposition");
         }else {
             playWhenReady = savedInstanceState.getBoolean("playWhenReady");
             currentWindow = savedInstanceState.getInt("currentWindow");
             playbackPosition = savedInstanceState.getLong("playBackPosition");
+            position = savedInstanceState.getInt("position");
         }
 
-        Gson gson = new Gson();
-        String  stepList = getArguments().getString("Steps");
-       steps = gson.fromJson(stepList, new TypeToken<List<Step>>(){}.getType());
-       position = getArguments().getInt("stepposition");
+
         Log.v("steps", steps.toString());
        // Log.v("position", String.valueOf(position));
                 stepsTv.setText(steps.get(position).getDescription());
@@ -119,6 +121,9 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playWhenReady = true;
+                currentWindow = 0;
+                playbackPosition = 0;
                 position++;
                 releasePlayer();
                 exoPlayer(steps.get(position));
@@ -137,6 +142,9 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playWhenReady = true;
+                currentWindow = 0;
+                playbackPosition = 0;
                 if(position != steps.size()-1){
                     nextButton.setEnabled(true);
                 }
@@ -319,5 +327,6 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
         outState.putBoolean("playWhenReady", playWhenReady);
         outState.putInt("currentWindow", currentWindow);
         outState.putLong("playBackPosition", playbackPosition);
+        outState.putInt("position", position);
     }
 }
