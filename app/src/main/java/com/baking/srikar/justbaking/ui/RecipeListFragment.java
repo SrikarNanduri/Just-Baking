@@ -1,9 +1,11 @@
 package com.baking.srikar.justbaking.ui;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,6 +46,9 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
             R.drawable.cheese
     };
 
+    private boolean isTablet;
+    private int columns;
+
     public RecipeListFragment() {
     }
 
@@ -52,6 +57,14 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView =inflater.inflate(R.layout.recipe_fragment_body, container, false);
         ButterKnife.bind(this, rootView);
+        isTablet = getResources().getBoolean(R.bool.is_tablet);
+        if (isTablet) { //it's a tablet
+
+            columns = 2;
+        } else { //it's a phone, not a tablet
+
+            columns = 1;
+        }
         checkConnection();
         return  rootView;
     }
@@ -74,7 +87,7 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
     }
 
     public void generateBakingList(List<BakingResponse> bakingResponses) {
-        homeRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        homeRv.setLayoutManager(new GridLayoutManager(getContext(),columns));
         homeRv.setHasFixedSize(true);
         recipeListAdapter = new RecipeListAdapter(getContext(), bakingResponses, images);
         homeRv.setAdapter(recipeListAdapter);
