@@ -28,11 +28,12 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setTitle("Baking Time");
-
-        RecipeListFragment recipeListFragment = new RecipeListFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                       .add(R.id.recipe_fragment_body_part, recipeListFragment)
-                       .commit();
+        if(savedInstanceState  == null) {
+            RecipeListFragment recipeListFragment = new RecipeListFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.recipe_fragment_body_part, recipeListFragment)
+                    .commit();
+        }
     }
 }

@@ -33,17 +33,20 @@ public class DetailsActivity extends AppCompatActivity {
         String  bakinglist = getIntent().getStringExtra("bakinglistobj");
         Bundle bundle = new Bundle();
         bundle.putString("bakinglist", bakinglist);
-        RecipeDetailsListFragment fragment = new RecipeDetailsListFragment();
-        fragment.setArguments(bundle);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(savedInstanceState  == null) {
+            RecipeDetailsListFragment fragment = new RecipeDetailsListFragment();
+            fragment.setArguments(bundle);
 
-        fragmentManager.beginTransaction()
-                .add(R.id.recipe_details_fragment_body_part, fragment)
-                .commit();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            fragmentManager.beginTransaction()
+                    .add(R.id.recipe_details_fragment_body_part, fragment)
+                    .commit();
        /* Gson gson = new Gson();
         BakingResponse bakingResponse = gson.fromJson(bakinglist, BakingResponse.class);
         Log.v("Json Data", bakingResponse.getName());*/
+        }
     }
 
 
