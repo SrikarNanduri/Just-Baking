@@ -17,7 +17,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     @BindView(R.id.my_toolbar)
     Toolbar mToolbar;
-
+    private boolean isTablet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,17 +35,41 @@ public class DetailsActivity extends AppCompatActivity {
         bundle.putString("bakinglist", bakinglist);
 
         if(savedInstanceState  == null) {
-            RecipeDetailsListFragment fragment = new RecipeDetailsListFragment();
-            fragment.setArguments(bundle);
+            isTablet = getResources().getBoolean(R.bool.is_tablet);
+            if (isTablet) { //it's a tablet
+                RecipeDetailsListFragment fragment = new RecipeDetailsListFragment();
+                StepDetailsListFragment stepDetailsListFragment = new StepDetailsListFragment();
+                fragment.setArguments(bundle);
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
+                String steps = getIntent().getStringExtra("stepsList");
+                int position = getIntent().getIntExtra("position",0);
+                Bundle bundle2 = new Bundle();
+                bundle2.putInt("stepposition", position);
+                bundle2.putString("Steps", steps);
+                stepDetailsListFragment.setArguments(bundle2);
 
-            fragmentManager.beginTransaction()
-                    .add(R.id.recipe_details_fragment_body_part, fragment)
-                    .commit();
-       /* Gson gson = new Gson();
-        BakingResponse bakingResponse = gson.fromJson(bakinglist, BakingResponse.class);
-        Log.v("Json Data", bakingResponse.getName());*/
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                fragmentManager.beginTransaction()
+                        .add(R.id.container1, fragment)
+                        .commit();
+
+                fragmentManager.beginTransaction()
+                        .add(R.id.container2, stepDetailsListFragment)
+                        .commit();
+
+            } else { //it's a phone, not a tablet
+
+                RecipeDetailsListFragment fragment = new RecipeDetailsListFragment();
+                fragment.setArguments(bundle);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                fragmentManager.beginTransaction()
+                        .add(R.id.recipe_details_fragment_body_part, fragment)
+                        .commit();
+            }
         }
     }
 

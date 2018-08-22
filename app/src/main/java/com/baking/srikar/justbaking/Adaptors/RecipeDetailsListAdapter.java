@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.baking.srikar.justbaking.Models.BakingResponse;
 import com.baking.srikar.justbaking.Models.Step;
 import com.baking.srikar.justbaking.R;
+import com.baking.srikar.justbaking.ui.DetailsActivity;
 import com.baking.srikar.justbaking.ui.StepDetailsActivity;
 import com.google.gson.Gson;
 
@@ -27,6 +28,7 @@ public class RecipeDetailsListAdapter extends RecyclerView.Adapter<RecipeDetails
     Context context;
     private List<Step> mStepsList;
     private LayoutInflater mInflater;
+    private boolean isTablet;
 
     public RecipeDetailsListAdapter(Context context,  List<Step> mStepsList) {
         this.context = context;
@@ -52,12 +54,27 @@ public class RecipeDetailsListAdapter extends RecyclerView.Adapter<RecipeDetails
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(context, StepDetailsActivity.class);
-                Gson gson = new Gson();
-                String stepsList = gson.toJson(mStepsList);
-                i.putExtra("stepsList",  stepsList);
-                i.putExtra("position", position);
-                context.startActivity(i);
+                isTablet = context.getResources().getBoolean(R.bool.is_tablet);
+                if (isTablet) { //it's a tablet
+
+
+                    Intent i = new Intent(context, DetailsActivity.class);
+                    Gson gson = new Gson();
+                    String stepsList = gson.toJson(mStepsList);
+                    i.putExtra("stepsList",  stepsList);
+                    i.putExtra("position", position);
+                    context.startActivity(i);
+
+                } else { //it's a phone, not a tablet
+
+                    Intent i = new Intent(context, StepDetailsActivity.class);
+                    Gson gson = new Gson();
+                    String stepsList = gson.toJson(mStepsList);
+                    i.putExtra("stepsList",  stepsList);
+                    i.putExtra("position", position);
+                    context.startActivity(i);
+                }
+
             }
         });
 
