@@ -41,14 +41,6 @@ public class DetailsActivity extends AppCompatActivity {
                 StepDetailsListFragment stepDetailsListFragment = new StepDetailsListFragment();
                 fragment.setArguments(bundle);
 
-                String steps = getIntent().getStringExtra("stepsList");
-                int position = getIntent().getIntExtra("position",0);
-                Bundle bundle2 = new Bundle();
-                bundle2.putInt("stepposition", position);
-                bundle2.putString("Steps", steps);
-                stepDetailsListFragment.setArguments(bundle2);
-
-
                 FragmentManager fragmentManager = getSupportFragmentManager();
 
                 fragmentManager.beginTransaction()
