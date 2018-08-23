@@ -57,14 +57,6 @@ public class RecipeDetailsListAdapter extends RecyclerView.Adapter<RecipeDetails
                 isTablet = context.getResources().getBoolean(R.bool.is_tablet);
                 if (isTablet) { //it's a tablet
 
-
-                   /* Intent i = new Intent(context, DetailsActivity.class);
-                    Gson gson = new Gson();
-                    String stepsList = gson.toJson(mStepsList);
-                    i.putExtra("stepsList",  stepsList);
-                    i.putExtra("position", position);
-                    context.startActivity(i);*/
-
                     ((DetailsActivity) context).playerData(position, mStepsList);
 
                 } else { //it's a phone, not a tablet

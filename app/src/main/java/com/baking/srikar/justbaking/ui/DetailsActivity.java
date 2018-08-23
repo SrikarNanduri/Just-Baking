@@ -77,9 +77,7 @@ public class DetailsActivity extends AppCompatActivity {
                         .commit();
             }
 
-        } /*else {
-            bakinglist = savedInstanceState.getString("bakingResponseList");
-        }*/
+        }
 
 
     }

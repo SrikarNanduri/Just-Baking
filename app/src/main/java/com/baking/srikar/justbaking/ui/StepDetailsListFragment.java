@@ -99,13 +99,13 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
 
         isTablet = getResources().getBoolean(R.bool.is_tablet);
 
-        if (isTablet) { //it's a tablet
-            simpleExoPlayerView.setVisibility(View.GONE);
+       /* if (isTablet) { //it's a tablet
+            *//*simpleExoPlayerView.setVisibility(View.GONE);
             stepsTv.setVisibility(View.GONE);
             previousButton.setVisibility(View.GONE);
-            nextButton.setVisibility(View.GONE);
+            nextButton.setVisibility(View.GONE);*//*
 
-        } else { //it's a phone, not a tablet
+        } else {*/ //it's a phone, not a tablet
 
             stepList= getArguments().getString("Steps");
             steps = gson.fromJson(stepList, new TypeToken<List<Step>>(){}.getType());
@@ -128,7 +128,7 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
             }
             nextBtn(steps);
             previousBtn(steps);
-        }
+        //}
         return rootView;
     }
     public void nextBtn(final List<Step> steps){

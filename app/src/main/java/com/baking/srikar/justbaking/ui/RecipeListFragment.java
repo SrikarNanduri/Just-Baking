@@ -1,6 +1,7 @@
 package com.baking.srikar.justbaking.ui;
 
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -63,7 +64,14 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
             columns = 2;
         } else { //it's a phone, not a tablet
 
-            columns = 1;
+            Configuration newConfig = getResources().getConfiguration();
+            if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+                columns = 2;
+            } else {
+                if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+                    columns = 1;
+                }
+            }
         }
         checkConnection();
         return  rootView;
