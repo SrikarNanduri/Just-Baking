@@ -7,8 +7,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.baking.srikar.justbaking.Models.BakingResponse;
+import com.baking.srikar.justbaking.Models.Step;
 import com.baking.srikar.justbaking.R;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,6 +25,9 @@ public class DetailsActivity extends AppCompatActivity {
     Bundle bundle;
     Bundle bundle2;
 
+    RecipeDetailsListFragment fragment;
+    StepDetailsListFragment stepDetailsListFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,54 +40,48 @@ public class DetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Baking Time");
 
-
-
-        if(savedInstanceState  == null) {
-            bakinglist = getIntent().getStringExtra("bakinglistobj");
+   bakinglist = getIntent().getStringExtra("bakinglistobj");
             bundle = new Bundle();
             bundle.putString("bakinglist", bakinglist);
 
+        if(savedInstanceState  == null) {
 
-        } else {
+            isTablet = getResources().getBoolean(R.bool.is_tablet);
+            if (isTablet) { //it's a tablet
+
+                 fragment = new RecipeDetailsListFragment();
+                 stepDetailsListFragment = new StepDetailsListFragment();
+
+                fragment.setArguments(bundle);
+
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                fragmentManager.beginTransaction()
+                        .add(R.id.container1, fragment)
+                        .commit();
+
+                fragmentManager.beginTransaction()
+                        .add(R.id.container2, stepDetailsListFragment)
+                        .commit();
+
+            } else { //it's a phone, not a tablet
+
+                fragment = new RecipeDetailsListFragment();
+                fragment.setArguments(bundle);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                fragmentManager.beginTransaction()
+                        .add(R.id.recipe_details_fragment_body_part, fragment)
+                        .commit();
+            }
+
+        } /*else {
             bakinglist = savedInstanceState.getString("bakingResponseList");
-        }
+        }*/
 
-        isTablet = getResources().getBoolean(R.bool.is_tablet);
-        if (isTablet) { //it's a tablet
-            RecipeDetailsListFragment fragment = new RecipeDetailsListFragment();
-            StepDetailsListFragment stepDetailsListFragment = new StepDetailsListFragment();
-            fragment.setArguments(bundle);
 
-/*
-            String steps = getIntent().getStringExtra("stepsList");
-            Log.v("StepsData", steps);
-            int position = getIntent().getIntExtra("position",0);
-            bundle2.putInt("stepposition", position);
-            bundle2.putString("Steps", steps);*/
-
-            //stepDetailsListFragment.setArguments(bundle2);
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            fragmentManager.beginTransaction()
-                    .add(R.id.container1, fragment)
-                    .commit();
-
-            fragmentManager.beginTransaction()
-                    .add(R.id.container2, stepDetailsListFragment)
-                    .commit();
-
-        } else { //it's a phone, not a tablet
-
-            RecipeDetailsListFragment fragment = new RecipeDetailsListFragment();
-            fragment.setArguments(bundle);
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            fragmentManager.beginTransaction()
-                    .add(R.id.recipe_details_fragment_body_part, fragment)
-                    .commit();
-        }
     }
 
 
@@ -95,5 +95,9 @@ public class DetailsActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    public void playerData(int position, List<Step> step){
+        stepDetailsListFragment.getPlayerData(position, step);
     }
 }

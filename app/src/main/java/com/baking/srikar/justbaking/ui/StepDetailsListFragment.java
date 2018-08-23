@@ -84,63 +84,32 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
         ButterKnife.bind(this, rootView);
         Gson gson = new Gson();
 
+        if (savedInstanceState == null) {
+            playWhenReady = true;
+            currentWindow = 0;
+            playbackPosition = 0;
+            position = getArguments().getInt("stepposition");
+        } else {
+            playWhenReady = savedInstanceState.getBoolean("playWhenReady");
+            currentWindow = savedInstanceState.getInt("currentWindow");
+            playbackPosition = savedInstanceState.getLong("playBackPosition");
+            position = savedInstanceState.getInt("position");
+        }
+
 
         isTablet = getResources().getBoolean(R.bool.is_tablet);
+
         if (isTablet) { //it's a tablet
-
-            if(steps == null){
-                simpleExoPlayerView.setVisibility(View.GONE);
-                stepsTv.setVisibility(View.GONE);
-                previousButton.setVisibility(View.GONE);
-                nextButton.setVisibility(View.GONE);
-            } else{
-                stepList= getArguments().getString("Steps");
-                steps = gson.fromJson(stepList, new TypeToken<List<Step>>(){}.getType());
-                isTablet = getResources().getBoolean(R.bool.is_tablet);
-                if (savedInstanceState == null) {
-                    playWhenReady = true;
-                    currentWindow = 0;
-                    playbackPosition = 0;
-                    position = getArguments().getInt("stepposition");
-                } else {
-                    playWhenReady = savedInstanceState.getBoolean("playWhenReady");
-                    currentWindow = savedInstanceState.getInt("currentWindow");
-                    playbackPosition = savedInstanceState.getLong("playBackPosition");
-                    position = savedInstanceState.getInt("position");
-                }
-                stepsTv.setText(steps.get(position).getDescription());
-                exoPlayer(steps.get(position));
-
-                if (position == 0) {
-                    previousButton.setEnabled(false);
-                } else {
-                    previousButton.setEnabled(true);
-                }
-
-                if (position == steps.size() - 1) {
-                    nextButton.setEnabled(false);
-                } else {
-                    nextButton.setEnabled(true);
-                }
-                nextBtn(steps);
-                previousBtn(steps);
-            }
+            simpleExoPlayerView.setVisibility(View.GONE);
+            stepsTv.setVisibility(View.GONE);
+            previousButton.setVisibility(View.GONE);
+            nextButton.setVisibility(View.GONE);
 
         } else { //it's a phone, not a tablet
+
             stepList= getArguments().getString("Steps");
             steps = gson.fromJson(stepList, new TypeToken<List<Step>>(){}.getType());
-            isTablet = getResources().getBoolean(R.bool.is_tablet);
-            if (savedInstanceState == null) {
-                playWhenReady = true;
-                currentWindow = 0;
-                playbackPosition = 0;
-                position = getArguments().getInt("stepposition");
-            } else {
-                playWhenReady = savedInstanceState.getBoolean("playWhenReady");
-                currentWindow = savedInstanceState.getInt("currentWindow");
-                playbackPosition = savedInstanceState.getLong("playBackPosition");
-                position = savedInstanceState.getInt("position");
-            }
+
             Log.v("steps", steps.toString());
             // Log.v("position", String.valueOf(position));
             stepsTv.setText(steps.get(position).getDescription());
@@ -374,4 +343,32 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
         outState.putLong("playBackPosition", playbackPosition);
         outState.putInt("position", position);
     }
-}
+
+    public void getPlayerData(int position, List<Step> steps){
+
+
+            simpleExoPlayerView.setVisibility(View.VISIBLE);
+            stepsTv.setVisibility(View.VISIBLE);
+            previousButton.setVisibility(View.VISIBLE);
+            nextButton.setVisibility(View.VISIBLE);
+
+
+            stepsTv.setText(steps.get(position).getDescription());
+            exoPlayer(steps.get(position));
+
+            if (position == 0) {
+                previousButton.setEnabled(false);
+            } else {
+                previousButton.setEnabled(true);
+            }
+
+            if (position == steps.size() - 1) {
+                nextButton.setEnabled(false);
+            } else {
+                nextButton.setEnabled(true);
+            }
+            nextBtn(steps);
+            previousBtn(steps);
+        }
+    }
+
