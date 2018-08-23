@@ -18,6 +18,10 @@ public class DetailsActivity extends AppCompatActivity {
     @BindView(R.id.my_toolbar)
     Toolbar mToolbar;
     private boolean isTablet;
+    String  bakinglist;
+    Bundle bundle;
+    Bundle bundle2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,41 +34,62 @@ public class DetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Baking Time");
 
-        String  bakinglist = getIntent().getStringExtra("bakinglistobj");
-        Bundle bundle = new Bundle();
-        bundle.putString("bakinglist", bakinglist);
+
 
         if(savedInstanceState  == null) {
-            isTablet = getResources().getBoolean(R.bool.is_tablet);
-            if (isTablet) { //it's a tablet
-                RecipeDetailsListFragment fragment = new RecipeDetailsListFragment();
-                StepDetailsListFragment stepDetailsListFragment = new StepDetailsListFragment();
-                fragment.setArguments(bundle);
+            bakinglist = getIntent().getStringExtra("bakinglistobj");
+            bundle = new Bundle();
+            bundle.putString("bakinglist", bakinglist);
 
-                FragmentManager fragmentManager = getSupportFragmentManager();
 
-                fragmentManager.beginTransaction()
-                        .add(R.id.container1, fragment)
-                        .commit();
+        } else {
+            bakinglist = savedInstanceState.getString("bakingResponseList");
+        }
 
-                fragmentManager.beginTransaction()
-                        .add(R.id.container2, stepDetailsListFragment)
-                        .commit();
+        isTablet = getResources().getBoolean(R.bool.is_tablet);
+        if (isTablet) { //it's a tablet
+            RecipeDetailsListFragment fragment = new RecipeDetailsListFragment();
+            StepDetailsListFragment stepDetailsListFragment = new StepDetailsListFragment();
+            fragment.setArguments(bundle);
 
-            } else { //it's a phone, not a tablet
+/*
+            String steps = getIntent().getStringExtra("stepsList");
+            Log.v("StepsData", steps);
+            int position = getIntent().getIntExtra("position",0);
+            bundle2.putInt("stepposition", position);
+            bundle2.putString("Steps", steps);*/
 
-                RecipeDetailsListFragment fragment = new RecipeDetailsListFragment();
-                fragment.setArguments(bundle);
+            //stepDetailsListFragment.setArguments(bundle2);
 
-                FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
 
-                fragmentManager.beginTransaction()
-                        .add(R.id.recipe_details_fragment_body_part, fragment)
-                        .commit();
-            }
+            fragmentManager.beginTransaction()
+                    .add(R.id.container1, fragment)
+                    .commit();
+
+            fragmentManager.beginTransaction()
+                    .add(R.id.container2, stepDetailsListFragment)
+                    .commit();
+
+        } else { //it's a phone, not a tablet
+
+            RecipeDetailsListFragment fragment = new RecipeDetailsListFragment();
+            fragment.setArguments(bundle);
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            fragmentManager.beginTransaction()
+                    .add(R.id.recipe_details_fragment_body_part, fragment)
+                    .commit();
         }
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("bakingResponseList", bakinglist);
+    }
 
     @Override
     public boolean onSupportNavigateUp() {
