@@ -83,12 +83,15 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
         View rootView = inflater.inflate(R.layout.steps_details_fragment_body, container, false);
         ButterKnife.bind(this, rootView);
         Gson gson = new Gson();
+        isTablet = getResources().getBoolean(R.bool.is_tablet);
 
         if (savedInstanceState == null) {
             playWhenReady = true;
             currentWindow = 0;
             playbackPosition = 0;
-            position = getArguments().getInt("stepposition");
+            if(!isTablet) {
+                position = getArguments().getInt("stepposition");
+            }
         } else {
             playWhenReady = savedInstanceState.getBoolean("playWhenReady");
             currentWindow = savedInstanceState.getInt("currentWindow");
@@ -97,15 +100,9 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
         }
 
 
-        isTablet = getResources().getBoolean(R.bool.is_tablet);
 
-       /* if (isTablet) { //it's a tablet
-            *//*simpleExoPlayerView.setVisibility(View.GONE);
-            stepsTv.setVisibility(View.GONE);
-            previousButton.setVisibility(View.GONE);
-            nextButton.setVisibility(View.GONE);*//*
 
-        } else {*/ //it's a phone, not a tablet
+        if (!isTablet) {//it's a phone, not a tablet
 
             stepList= getArguments().getString("Steps");
             steps = gson.fromJson(stepList, new TypeToken<List<Step>>(){}.getType());
@@ -128,7 +125,11 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
             }
             nextBtn(steps);
             previousBtn(steps);
-        //}
+        } else {
+            stepList= getArguments().getString("Steps");
+            steps = gson.fromJson(stepList, new TypeToken<List<Step>>(){}.getType());
+            getPlayerData(position, steps);
+        }
         return rootView;
     }
     public void nextBtn(final List<Step> steps){
@@ -159,7 +160,7 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
                 playWhenReady = true;
                 currentWindow = 0;
                 playbackPosition = 0;
-                if(position != steps.size()-1){
+                if(position != steps.size()){
                     nextButton.setEnabled(true);
                 }
                 position --;
@@ -256,7 +257,9 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
     public void onDestroy() {
         super.onDestroy();
         releasePlayer();
-        mMediaSession.setActive(false);
+        if(mMediaSession != null) {
+            mMediaSession.setActive(false);
+        }
     }
 
     @Override
@@ -335,26 +338,25 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        playbackPosition = mExoPlayer.getCurrentPosition();
-        currentWindow = mExoPlayer.getCurrentWindowIndex();
-        playWhenReady = mExoPlayer.getPlayWhenReady();
-        outState.putBoolean("playWhenReady", playWhenReady);
-        outState.putInt("currentWindow", currentWindow);
-        outState.putLong("playBackPosition", playbackPosition);
-        outState.putInt("position", position);
+        if(mExoPlayer != null) {
+            playbackPosition = mExoPlayer.getCurrentPosition();
+            currentWindow = mExoPlayer.getCurrentWindowIndex();
+            playWhenReady = mExoPlayer.getPlayWhenReady();
+            outState.putBoolean("playWhenReady", playWhenReady);
+            outState.putInt("currentWindow", currentWindow);
+            outState.putLong("playBackPosition", playbackPosition);
+            outState.putInt("position", position);
+        }
     }
 
-    public void getPlayerData(int position, List<Step> steps){
+    public void getPlayerData(int pos, List<Step> mSteps){
 
-
-            simpleExoPlayerView.setVisibility(View.VISIBLE);
-            stepsTv.setVisibility(View.VISIBLE);
-            previousButton.setVisibility(View.VISIBLE);
-            nextButton.setVisibility(View.VISIBLE);
-
-
-            stepsTv.setText(steps.get(position).getDescription());
-            exoPlayer(steps.get(position));
+          position = pos;
+             if(mExoPlayer != null){
+                 releasePlayer();
+             }
+            stepsTv.setText(mSteps.get(position).getDescription());
+            exoPlayer(mSteps.get(position));
 
             if (position == 0) {
                 previousButton.setEnabled(false);
@@ -362,13 +364,13 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
                 previousButton.setEnabled(true);
             }
 
-            if (position == steps.size() - 1) {
+            if (position == mSteps.size() - 1) {
                 nextButton.setEnabled(false);
             } else {
                 nextButton.setEnabled(true);
             }
-            nextBtn(steps);
-            previousBtn(steps);
+            nextBtn(mSteps);
+            previousBtn(mSteps);
         }
     }
 

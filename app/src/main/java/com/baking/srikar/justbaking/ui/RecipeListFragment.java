@@ -61,7 +61,14 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
         isTablet = getResources().getBoolean(R.bool.is_tablet);
         if (isTablet) { //it's a tablet
 
-            columns = 2;
+            Configuration newConfig = getResources().getConfiguration();
+            if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+                columns = 3;
+            } else {
+                if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+                    columns = 2;
+                }
+            }
         } else { //it's a phone, not a tablet
 
             Configuration newConfig = getResources().getConfiguration();

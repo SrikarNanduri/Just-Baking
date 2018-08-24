@@ -43,16 +43,22 @@ public class DetailsActivity extends AppCompatActivity {
    bakinglist = getIntent().getStringExtra("bakinglistobj");
             bundle = new Bundle();
             bundle.putString("bakinglist", bakinglist);
+        Gson gson = new Gson();
+        BakingResponse bakingResponse = gson.fromJson(bakinglist, BakingResponse.class);
 
         if(savedInstanceState  == null) {
 
             isTablet = getResources().getBoolean(R.bool.is_tablet);
             if (isTablet) { //it's a tablet
+                bundle2 = new Bundle();
+                String stepsList = gson.toJson(bakingResponse.getSteps());
+                bundle2.putString("Steps", stepsList);
 
                  fragment = new RecipeDetailsListFragment();
                  stepDetailsListFragment = new StepDetailsListFragment();
 
                 fragment.setArguments(bundle);
+                stepDetailsListFragment.setArguments(bundle2);
 
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -82,13 +88,6 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("bakingResponseList", bakinglist);
-    }
-
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -96,6 +95,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void playerData(int position, List<Step> step){
+        stepDetailsListFragment = (StepDetailsListFragment) getSupportFragmentManager().findFragmentById(R.id.container2);
         stepDetailsListFragment.getPlayerData(position, step);
     }
 }
