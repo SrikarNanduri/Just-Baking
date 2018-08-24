@@ -79,19 +79,21 @@ public class RecipeDetailsListFragment extends Fragment {
 
             String ingridentsListString;
             if ((quantityValue == Math.floor(quantityValue)) && !Double.isInfinite(quantityValue)) {
-                ingridentsListString = ingridents + "(" + (int)quantityValue + " " + measure + ")";
+                ingridentsListString = ingridents + " (" + (int)quantityValue + " " + measure + ")";
             } else {
-                ingridentsListString = ingridents + "(" +  quantityValue + " " + measure + ")";
+                ingridentsListString = ingridents + " (" +  quantityValue + " " + measure + ")";
             }
             ingredientList.add(ingridentsListString);
         }
 
         StringBuilder result = new StringBuilder();
         for (int j=0; j<ingredientList.size() - 1; j++) {
+            result.append("◘" + " ");
             result.append(ingredientList.get(j));
             result.append(",");
             result.append(System.lineSeparator());
         }
+        result.append("◘" + " ");
         result.append(ingredientList.get(ingredientList.size()-1));
         Log.v("whole list", String.valueOf(result));
 

@@ -28,18 +28,26 @@
                 android:layout_height="match_parent"
                 android:padding="10dp"
                 android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ingredients:"
-                android:id="@+id/placeholder_tv"
-                android:paddingLeft="5dp"/>
 
-            <TextView
-                android:id="@+id/ingredients_tv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="8dp" />
+                <TextView
+                    android:id="@+id/placeholder_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingLeft="5dp"
+                    android:text="Ingredients:"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ingredients_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="sans-serif"
+                    android:paddingLeft="8dp"
+                    android:text="@string/app_name"
+                    android:textSize="14sp" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
