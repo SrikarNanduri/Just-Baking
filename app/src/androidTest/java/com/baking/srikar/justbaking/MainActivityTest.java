@@ -52,7 +52,7 @@ public class MainActivityTest {
     @Test
     public void buttonCheck() throws InterruptedException {
         //This line needs review
-        Thread.sleep(1000);
+       // Thread.sleep(1000);
         onView(withId(R.id.recipe_rv)).perform(actionOnItemAtPosition(0, click()));
         onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(BAKING_ITEM)));
     }

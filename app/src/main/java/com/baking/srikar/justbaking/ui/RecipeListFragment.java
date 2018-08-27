@@ -53,8 +53,8 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
     private boolean isTablet;
     private int columns;
 
-/*    @Nullable
-    private SimpleIdlingResource simpleIdlingResource;*/
+    @Nullable
+    private SimpleIdlingResource simpleIdlingResource;
 
     public RecipeListFragment() {
     }
@@ -65,6 +65,11 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
         View rootView =inflater.inflate(R.layout.recipe_fragment_body, container, false);
         ButterKnife.bind(this, rootView);
         isTablet = getResources().getBoolean(R.bool.is_tablet);
+
+        MainActivity activity = (MainActivity) getActivity();
+        simpleIdlingResource = (SimpleIdlingResource) activity.getIdlingResource();
+
+
         if (isTablet) { //it's a tablet
 
             Configuration newConfig = getResources().getConfiguration();
@@ -91,15 +96,6 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
     }
 
 
-/*    @VisibleForTesting
-    @NonNull
-    public IdlingResource getIdlingResource() {
-        if (simpleIdlingResource == null) {
-            simpleIdlingResource = new SimpleIdlingResource();
-        }
-        return simpleIdlingResource;
-    }*/
-
     private void checkConnection() {
         boolean isConnected = ConnectivityReceiver.isConnected();
         connection(isConnected);
@@ -125,6 +121,10 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
     }
 
     private void bakingFeed() {
+
+        if (simpleIdlingResource != null) {
+            simpleIdlingResource.setIdleState(false);
+        }
         Baking_Interface apiService = ApiClient.getClient().create(Baking_Interface.class);
         Call<List<BakingResponse>> call = apiService.getBakingList();
         Log.v("URL", call.request().url() + "");
@@ -135,6 +135,9 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
                     List<BakingResponse> bakingResponses = response.body();
                     Log.v("Baking Response", bakingResponses.get(0).getName());
                     generateBakingList(bakingResponses);
+                    if (simpleIdlingResource != null) {
+                        simpleIdlingResource.setIdleState(true);
+                    }
                 } else {
 
                     switch (response.code()) {
