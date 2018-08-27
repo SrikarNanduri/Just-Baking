@@ -38,14 +38,14 @@ public class DetailsActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Baking Time");
+
 
    bakinglist = getIntent().getStringExtra("bakinglistobj");
             bundle = new Bundle();
             bundle.putString("bakinglist", bakinglist);
         Gson gson = new Gson();
         BakingResponse bakingResponse = gson.fromJson(bakinglist, BakingResponse.class);
-
+        getSupportActionBar().setTitle(bakingResponse.getName());
         if(savedInstanceState  == null) {
 
             isTablet = getResources().getBoolean(R.bool.is_tablet);

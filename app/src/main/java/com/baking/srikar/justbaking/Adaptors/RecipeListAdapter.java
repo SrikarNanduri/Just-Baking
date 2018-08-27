@@ -32,12 +32,13 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Ba
         this.context = context;
         this.mBakingList = mBakingList;
         this.images = images;
-        mInflater = LayoutInflater.from(context);
+
     }
 
     @NonNull
     @Override
     public RecipeListAdapter.BakingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        mInflater = LayoutInflater.from(context);
         View mItemView = mInflater.inflate(R.layout.recipe_list_layout,parent,false);
         return new BakingViewHolder(mItemView);
     }

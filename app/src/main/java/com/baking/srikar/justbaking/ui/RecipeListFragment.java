@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.baking.srikar.justbaking.Adaptors.RecipeListAdapter;
+import com.baking.srikar.justbaking.Config.SimpleIdlingResource;
 import com.baking.srikar.justbaking.Models.BakingResponse;
 import com.baking.srikar.justbaking.Network.ApiClient;
 import com.baking.srikar.justbaking.Network.Baking_Interface;
@@ -49,6 +52,9 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
 
     private boolean isTablet;
     private int columns;
+
+/*    @Nullable
+    private SimpleIdlingResource simpleIdlingResource;*/
 
     public RecipeListFragment() {
     }
@@ -84,6 +90,15 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
         return  rootView;
     }
 
+
+/*    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (simpleIdlingResource == null) {
+            simpleIdlingResource = new SimpleIdlingResource();
+        }
+        return simpleIdlingResource;
+    }*/
 
     private void checkConnection() {
         boolean isConnected = ConnectivityReceiver.isConnected();
