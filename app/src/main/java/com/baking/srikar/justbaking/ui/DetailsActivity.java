@@ -1,11 +1,16 @@
 package com.baking.srikar.justbaking.ui;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import com.baking.srikar.justbaking.Config.SimpleIdlingResource;
 import com.baking.srikar.justbaking.Models.BakingResponse;
 import com.baking.srikar.justbaking.Models.Step;
 import com.baking.srikar.justbaking.R;
@@ -24,6 +29,9 @@ public class DetailsActivity extends AppCompatActivity {
     String  bakinglist;
     Bundle bundle;
     Bundle bundle2;
+
+    @Nullable
+    private SimpleIdlingResource simpleIdlingResource;
 
     RecipeDetailsListFragment fragment;
     StepDetailsListFragment stepDetailsListFragment;
@@ -97,5 +105,14 @@ public class DetailsActivity extends AppCompatActivity {
     public void playerData(int position, List<Step> step){
         stepDetailsListFragment = (StepDetailsListFragment) getSupportFragmentManager().findFragmentById(R.id.container2);
         stepDetailsListFragment.getPlayerData(position, step);
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (simpleIdlingResource == null) {
+            simpleIdlingResource = new SimpleIdlingResource();
+        }
+        return simpleIdlingResource;
     }
 }
