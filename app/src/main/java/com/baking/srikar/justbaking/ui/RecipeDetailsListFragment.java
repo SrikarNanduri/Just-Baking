@@ -37,8 +37,6 @@ public class RecipeDetailsListFragment extends Fragment {
 
     RecipeDetailsListAdapter recipeDetailsListAdapter;
 
-    @Nullable
-    private SimpleIdlingResource simpleIdlingResource;
 
 
     public RecipeDetailsListFragment() {
@@ -49,10 +47,6 @@ public class RecipeDetailsListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recipe_details_fragment_body, container, false);
         ButterKnife.bind(this, rootView);
-
-        DetailsActivity activity = (DetailsActivity) getActivity();
-        simpleIdlingResource = (SimpleIdlingResource) activity.getIdlingResource();
-
         String bakingList = getArguments().getString("bakinglist");
         Gson gson = new Gson();
         BakingResponse bakingResponse = gson.fromJson(bakingList, BakingResponse.class);

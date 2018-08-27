@@ -30,8 +30,6 @@ public class DetailsActivity extends AppCompatActivity {
     Bundle bundle;
     Bundle bundle2;
 
-    @Nullable
-    private SimpleIdlingResource simpleIdlingResource;
 
     RecipeDetailsListFragment fragment;
     StepDetailsListFragment stepDetailsListFragment;
@@ -107,12 +105,4 @@ public class DetailsActivity extends AppCompatActivity {
         stepDetailsListFragment.getPlayerData(position, step);
     }
 
-    @VisibleForTesting
-    @NonNull
-    public IdlingResource getIdlingResource() {
-        if (simpleIdlingResource == null) {
-            simpleIdlingResource = new SimpleIdlingResource();
-        }
-        return simpleIdlingResource;
-    }
 }
