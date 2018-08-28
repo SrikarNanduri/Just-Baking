@@ -1,5 +1,6 @@
 package com.baking.srikar.justbaking.ui;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -32,11 +33,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        Resources appR = getApplicationContext().getResources();
+        CharSequence txt = appR.getText(appR.getIdentifier("app_name",
+                "string", getApplicationContext().getPackageName()));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setTitle("Baking Time");
+        getSupportActionBar().setTitle(txt);
         if(savedInstanceState  == null) {
             RecipeListFragment recipeListFragment = new RecipeListFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
