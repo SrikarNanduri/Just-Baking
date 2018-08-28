@@ -95,6 +95,11 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
         return  rootView;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        checkConnection();
+    }
 
     private void checkConnection() {
         boolean isConnected = ConnectivityReceiver.isConnected();
