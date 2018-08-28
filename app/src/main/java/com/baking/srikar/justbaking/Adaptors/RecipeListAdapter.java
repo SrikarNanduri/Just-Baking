@@ -49,6 +49,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Ba
         Picasso.with(context).load(images[position])
                 .placeholder(R.drawable.ic_action_placeholder_light)
                 .fit()
+                .centerCrop()
                 .into(holder.recipeIv);
         holder.recipeNameTv.setText(mBakingList.get(position).getName());
         holder.recipeServings.setText(Integer.toString(mBakingList.get(position).getServings()));
