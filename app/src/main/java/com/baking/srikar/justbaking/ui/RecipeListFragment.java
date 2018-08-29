@@ -1,15 +1,14 @@
 package com.baking.srikar.justbaking.ui;
 
-import android.content.pm.ActivityInfo;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.test.espresso.IdlingResource;
+
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
+
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +24,7 @@ import com.baking.srikar.justbaking.Network.Baking_Interface;
 import com.baking.srikar.justbaking.Network.ConnectivityReceiver;
 import com.baking.srikar.justbaking.Network.MyApplication;
 import com.baking.srikar.justbaking.R;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -34,10 +34,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class RecipeListFragment extends Fragment implements ConnectivityReceiver.ConnectivityReceiverListener{
 
     private static final String TAG = RecipeListFragment.class.getSimpleName();
-
+    private final String PREF_BAKING_LIST_SIZE = "baking_list_size";
+    private final String PREF_BAKING_LIST = "BAKING_LIST";
 
     @BindView(R.id.recipe_rv)
     RecyclerView homeRv;
@@ -140,6 +143,7 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
                     List<BakingResponse> bakingResponses = response.body();
                     Log.v("Baking Response", bakingResponses.get(0).getName());
                     generateBakingList(bakingResponses);
+                    saveToSharedPreferences(bakingResponses);
                     if (simpleIdlingResource != null) {
                         simpleIdlingResource.setIdleState(true);
                     }
@@ -182,4 +186,18 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
     public void onNetworkConnectionChanged(boolean isConnected) {
         connection(isConnected);
     }
+
+
+    //  saving to preference to accessible by widget
+    private void saveToSharedPreferences(List<BakingResponse> bakingListModels){
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences(PREF_BAKING_LIST, MODE_PRIVATE).edit();
+        for(int i=0;i<bakingListModels.size();i++){
+            Gson gson = new Gson();
+            String json = gson.toJson(bakingListModels.get(i));
+            editor.putString(String.valueOf(i), json);
+        }
+        editor.putInt(PREF_BAKING_LIST_SIZE,bakingListModels.size());
+        editor.apply();
+    }
+
 }
