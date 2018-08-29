@@ -27,6 +27,7 @@ import com.baking.srikar.justbaking.R;
 import com.google.gson.Gson;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+
 
 public class RecipeListFragment extends Fragment implements ConnectivityReceiver.ConnectivityReceiverListener{
 
@@ -121,6 +123,7 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
     }
 
     public void generateBakingList(List<BakingResponse> bakingResponses) {
+        saveToSharedPreferences(bakingResponses);
         homeRv.setLayoutManager(new GridLayoutManager(getContext(),columns));
         homeRv.setHasFixedSize(true);
         recipeListAdapter = new RecipeListAdapter(getContext(), bakingResponses, images);
@@ -143,7 +146,6 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
                     List<BakingResponse> bakingResponses = response.body();
                     Log.v("Baking Response", bakingResponses.get(0).getName());
                     generateBakingList(bakingResponses);
-                    saveToSharedPreferences(bakingResponses);
                     if (simpleIdlingResource != null) {
                         simpleIdlingResource.setIdleState(true);
                     }
@@ -190,6 +192,7 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
 
     //  saving to preference to accessible by widget
     private void saveToSharedPreferences(List<BakingResponse> bakingListModels){
+
         SharedPreferences.Editor editor = getActivity().getSharedPreferences(PREF_BAKING_LIST, MODE_PRIVATE).edit();
         for(int i=0;i<bakingListModels.size();i++){
             Gson gson = new Gson();

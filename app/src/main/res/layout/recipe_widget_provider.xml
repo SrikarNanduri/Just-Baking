@@ -7,11 +7,11 @@
     android:padding="@dimen/widget_margin">
 
     <TextView
+        android:id="@+id/widget_ingrident_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:fontFamily="@font/allerta"
-        android:text="Nutella Pie"
         android:textColor="@color/black"
         android:textAlignment="center"
         android:textSize="24sp"
@@ -19,13 +19,12 @@
 
 
     <TextView
-        android:id="@+id/appwidget_text"
+        android:id="@+id/widget_ingrident_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:contentDescription="@string/appwidget_text"
-        android:text="Graham Cracker crumbs (2 CUP), unsalted butter, melted (6 TBLSP), granulated sugar (0.5 CUP), salt (1.5 TSP), vanilla (5 TBLSP), Nutella or other chocolate-hazelnut spread (1 K), Mascapone Cheese(room temperature) (500 G), heavy cream(cold) (1 CUP), cream cheese(softened) (4 OZ)"
         android:textAlignment="center"
         android:textColor="@color/grey"
         android:textSize="14sp"
@@ -39,7 +38,8 @@
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
-        <ImageButton
+        <ImageView
+            android:id="@+id/back_button"
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:layout_margin="5dp"
@@ -47,7 +47,8 @@
             android:background="@color/white"
             android:src="@drawable/ic_action_back" />
 
-        <ImageButton
+        <ImageView
+            android:id="@+id/next_button"
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:layout_margin="5dp"
