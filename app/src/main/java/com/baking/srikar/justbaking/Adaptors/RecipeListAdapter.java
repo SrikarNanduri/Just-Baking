@@ -45,7 +45,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Ba
 
     @Override
     public void onBindViewHolder(@NonNull final RecipeListAdapter.BakingViewHolder holder, final int position) {
-      //  holder.recipeIv.setImageResource(images[position]);
         Picasso.with(context).load(images[position])
                 .placeholder(R.drawable.ic_action_placeholder_light)
                 .fit()
