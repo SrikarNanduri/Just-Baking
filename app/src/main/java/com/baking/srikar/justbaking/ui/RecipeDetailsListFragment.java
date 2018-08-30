@@ -13,9 +13,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.baking.srikar.justbaking.Adaptors.RecipeDetailsListAdapter;
-import com.baking.srikar.justbaking.Adaptors.RecipeListAdapter;
-import com.baking.srikar.justbaking.Config.ItemClickSupport;
-import com.baking.srikar.justbaking.Config.SimpleIdlingResource;
 import com.baking.srikar.justbaking.Models.BakingResponse;
 import com.baking.srikar.justbaking.Models.Step;
 import com.baking.srikar.justbaking.R;
@@ -63,13 +60,6 @@ public class RecipeDetailsListFragment extends Fragment {
         final List<Step> stepsList = bakingResponse.getSteps();
         recipeDetailsListAdapter = new RecipeDetailsListAdapter(getContext(), stepsList);
         stepsRv.setAdapter(recipeDetailsListAdapter);
-       /* ItemClickSupport.addTo(stepsRv).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                ((DetailsActivity) getActivity()).playerData(position, stepsList);
-            }
-        });*/
-
     }
 
     public void ingredients(BakingResponse bakingResponse){

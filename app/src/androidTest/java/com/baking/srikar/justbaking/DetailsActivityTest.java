@@ -45,7 +45,7 @@ public class DetailsActivityTest {
     @Before
     public void fakeData(){
         ingredients.add(new Ingredient((double) 2,"CUP","Cheese"));
-        steps.add(new Step(0,"Recipe Introduction","Recipe Introduction",null,null));
+        steps.add(new Step(0,"Recipe Introduction","Recipe Introduction","https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4",null));
         bakingResponse = new BakingResponse(0,"Nutella Pie",ingredients,steps,8,null);
         Intent intent = new Intent();
         Gson gson = new Gson();
@@ -61,7 +61,7 @@ public class DetailsActivityTest {
     public void selectingRecipe_openCorrespondingDescription(){
         onView(withId(R.id.placeholder_tv)).check(matches(withText("Ingredients:")));
         onView(withId(R.id.recipe_steps_rv)).check(matches(hasDescendant(withText("Recipe Introduction"))));
-       // onView(withId(R.id.recipe_steps_rv)).perform(actionOnItem(hasDescendant(withText("Recipe Introduction")), click()));
+        onView(withId(R.id.recipe_steps_rv)).perform(actionOnItem(hasDescendant(withText("Recipe Introduction")), click()));
     }
 
 }
