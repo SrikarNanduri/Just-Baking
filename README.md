@@ -1,3 +1,3 @@
 # Just-Baking
-Udacity Nano Degree Project 3.
+Udacity Nanodegree Project 3.
 
