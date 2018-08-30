@@ -43,6 +43,7 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
     private static final String TAG = RecipeListFragment.class.getSimpleName();
     private final String PREF_BAKING_LIST_SIZE = "baking_list_size";
     private final String PREF_BAKING_LIST = "BAKING_LIST";
+    MainActivity activity;
 
     @BindView(R.id.recipe_rv)
     RecyclerView homeRv;
@@ -71,7 +72,7 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
         ButterKnife.bind(this, rootView);
         isTablet = getResources().getBoolean(R.bool.is_tablet);
 
-        MainActivity activity = (MainActivity) getActivity();
+        activity = (MainActivity) getActivity();
         simpleIdlingResource = (SimpleIdlingResource) activity.getIdlingResource();
 
 
@@ -193,7 +194,7 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
     //  saving to preference to accessible by widget
     private void saveToSharedPreferences(List<BakingResponse> bakingListModels){
 
-        SharedPreferences.Editor editor = getActivity().getSharedPreferences(PREF_BAKING_LIST, MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = activity.getSharedPreferences(PREF_BAKING_LIST, MODE_PRIVATE).edit();
         for(int i=0;i<bakingListModels.size();i++){
             Gson gson = new Gson();
             String json = gson.toJson(bakingListModels.get(i));
