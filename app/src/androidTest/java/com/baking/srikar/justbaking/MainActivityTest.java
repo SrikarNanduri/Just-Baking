@@ -1,6 +1,5 @@
 package com.baking.srikar.justbaking;
 
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.runner.AndroidJUnit4;
@@ -12,8 +11,6 @@ import com.baking.srikar.justbaking.ui.MainActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -52,7 +49,6 @@ public class MainActivityTest {
     @Test
     public void buttonCheck() throws InterruptedException {
         //This line needs review
-       // Thread.sleep(1000);
         onView(withId(R.id.recipe_rv)).perform(actionOnItemAtPosition(0, click()));
         onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class)))).check(matches(withText(BAKING_ITEM)));
     }

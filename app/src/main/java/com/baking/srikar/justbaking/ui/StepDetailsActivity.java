@@ -1,19 +1,14 @@
 package com.baking.srikar.justbaking.ui;
 
-import android.os.Parcelable;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-import com.baking.srikar.justbaking.Models.Step;
+
 import com.baking.srikar.justbaking.R;
 
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class StepDetailsActivity extends AppCompatActivity {
 
@@ -47,9 +42,4 @@ public class StepDetailsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 }

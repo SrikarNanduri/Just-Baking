@@ -1,16 +1,11 @@
 package com.baking.srikar.justbaking.ui;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.test.espresso.IdlingResource;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
-import com.baking.srikar.justbaking.Config.SimpleIdlingResource;
 import com.baking.srikar.justbaking.Models.BakingResponse;
 import com.baking.srikar.justbaking.Models.Step;
 import com.baking.srikar.justbaking.R;

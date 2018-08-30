@@ -27,7 +27,6 @@ import com.baking.srikar.justbaking.R;
 import com.google.gson.Gson;
 
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
