@@ -10,11 +10,11 @@ import android.support.annotation.Nullable;
 public class WidgetService extends IntentService {
 
 
-    public static final String ACTION_CHANGE_INCREMENT = "com.developer.abhishek.bakingtime.widget.action.change_ingredient_plus";
-    public static final String ACTION_CHANGE_DECREMENT = "com.developer.abhishek.bakingtime.widget.action.change_ingredient_minus";
+    public static final String ACTION_INCREMENT = "com.baking.srikar.justbaking.Widget.action.change_ingredient_plus";
+    public static final String ACTION_DECREMENT = "com.baking.srikar.justbaking.Widget.action.change_ingredient_minus";
 
-    public static final String INTENT_EXTRA_CURRENT_INDEX = "count_value";
-    public static final String INTENT_EXTRA_SIZE = "size_of_baking_list";
+    public static final String INTENT_CURRENT_INDEX = "count_value";
+    public static final String INTENT_SIZE = "size_of_baking_list";
 
     public final static String PREF_BAKING_LIST = "BAKING_LIST";
     public static final String PREF_BAKING_CURRENT_INDEX = "baking_list_current_index";
@@ -30,18 +30,18 @@ public class WidgetService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         if (intent != null) {
-            currentIndex = intent.getIntExtra(INTENT_EXTRA_CURRENT_INDEX,-1);
-            size = intent.getIntExtra(INTENT_EXTRA_SIZE,0);
+            currentIndex = intent.getIntExtra(INTENT_CURRENT_INDEX,-1);
+            size = intent.getIntExtra(INTENT_SIZE,0);
             final String action = intent.getAction();
-            if (ACTION_CHANGE_INCREMENT.equals(action)) {
-                incrementId();
-            }else if(ACTION_CHANGE_DECREMENT.equals(action)){
-                decrementId();
+            if (ACTION_INCREMENT.equals(action)) {
+                increment();
+            }else if(ACTION_DECREMENT.equals(action)){
+                decrement();
             }
         }
     }
 
-    private void incrementId(){
+    private void increment(){
         if(currentIndex < size-1){
             currentIndex++;
             SharedPreferences.Editor editor = getSharedPreferences(PREF_BAKING_LIST, MODE_PRIVATE).edit();
@@ -51,7 +51,7 @@ public class WidgetService extends IntentService {
         }
     }
 
-    private void decrementId(){
+    private void decrement(){
         if(currentIndex > 0){
             currentIndex--;
             SharedPreferences.Editor editor = getSharedPreferences(PREF_BAKING_LIST, MODE_PRIVATE).edit();

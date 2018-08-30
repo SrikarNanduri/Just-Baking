@@ -41,17 +41,17 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
         //  Clicking next button will load next ingredient
         Intent nextIntent = new Intent(context,WidgetService.class);
-        nextIntent.setAction(WidgetService.ACTION_CHANGE_INCREMENT);
-        nextIntent.putExtra(WidgetService.INTENT_EXTRA_SIZE,sizeOfBakingList);
-        nextIntent.putExtra(WidgetService.INTENT_EXTRA_CURRENT_INDEX, currentIndexOfIngredient);
+        nextIntent.setAction(WidgetService.ACTION_INCREMENT);
+        nextIntent.putExtra(WidgetService.INTENT_SIZE,sizeOfBakingList);
+        nextIntent.putExtra(WidgetService.INTENT_CURRENT_INDEX, currentIndexOfIngredient);
         PendingIntent nextPendingIntent = PendingIntent.getService(context, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.next_button, nextPendingIntent);
 
         //  Clicking previous button will load previous ingredient
         Intent prevIntent = new Intent(context,WidgetService.class);
-        prevIntent.setAction(WidgetService.ACTION_CHANGE_DECREMENT);
-        prevIntent.putExtra(WidgetService.INTENT_EXTRA_SIZE,sizeOfBakingList);
-        prevIntent.putExtra(WidgetService.INTENT_EXTRA_CURRENT_INDEX, currentIndexOfIngredient);
+        prevIntent.setAction(WidgetService.ACTION_DECREMENT);
+        prevIntent.putExtra(WidgetService.INTENT_SIZE,sizeOfBakingList);
+        prevIntent.putExtra(WidgetService.INTENT_CURRENT_INDEX, currentIndexOfIngredient);
         PendingIntent prevPendingIntent = PendingIntent.getService(context,0,prevIntent,PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.back_button,prevPendingIntent);
 
