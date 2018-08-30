@@ -119,6 +119,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         }
         views.setTextViewText(R.id.widget_ingrident_list,ingredientList);
 
+
         if(currentIndexOfIngredient == 0){
             views.setViewVisibility(R.id.back_button, View.INVISIBLE);
         }else{

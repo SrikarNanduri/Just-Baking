@@ -48,8 +48,6 @@ public class RecipeDetailsListAdapter extends RecyclerView.Adapter<RecipeDetails
     public void onBindViewHolder(@NonNull RecipeDetailsListAdapter.RecipeDetailsViewHolder holder, final int position) {
 
         holder.stepTv.setText(mStepsList.get(position).getShortDescription());
-       // Log.v("Steps size", String.valueOf(mStepsList.size()));
-       // Log.v("position", String.valueOf(position));
         holder.stepTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

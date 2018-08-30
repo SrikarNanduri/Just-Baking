@@ -117,7 +117,6 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
     private void connection(boolean isConnected){
         if(isConnected){
            bakingFeed();
-          //  Toast.makeText(getContext(), "Network Available", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getContext(), "Network Not Available", Toast.LENGTH_LONG).show();
         }
@@ -191,7 +190,6 @@ public class RecipeListFragment extends Fragment implements ConnectivityReceiver
     }
 
 
-    //  saving to preference to accessible by widget
     private void saveToSharedPreferences(List<BakingResponse> bakingListModels){
 
         SharedPreferences.Editor editor = activity.getSharedPreferences(PREF_BAKING_LIST, MODE_PRIVATE).edit();

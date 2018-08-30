@@ -39,7 +39,7 @@ public class DetailsActivityTest {
 
 
     @Rule
-    public final ActivityTestRule<DetailsActivity> activityTestRule = new ActivityTestRule<DetailsActivity>(DetailsActivity.class,false,false);
+    public final ActivityTestRule<DetailsActivity> mActivityRule = new ActivityTestRule<DetailsActivity>(DetailsActivity.class,false,false);
 
 
     @Before
@@ -51,8 +51,8 @@ public class DetailsActivityTest {
         Gson gson = new Gson();
         String bakingList = gson.toJson(bakingResponse);
         intent.putExtra("bakinglistobj", bakingList);
-        activityTestRule.launchActivity(intent);
-        activityTestRule.getActivity().getFragmentManager().beginTransaction();
+        mActivityRule.launchActivity(intent);
+        mActivityRule.getActivity().getFragmentManager().beginTransaction();
     }
 
 
