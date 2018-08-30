@@ -52,7 +52,7 @@
                     android:maxLines="1"
                     android:paddingLeft="5dp"
                     android:paddingTop="7dp"
-                    android:text="servings:"
+                    android:text="@string/servings"
                     android:textSize="14sp" />
 
                 <TextView
