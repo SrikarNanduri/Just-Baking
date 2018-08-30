@@ -5,5 +5,4 @@
     android:layout_height="?attr/actionBarSize"
     android:background="@color/white"
     android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" />
+    xmlns:android="http://schemas.android.com/apk/res/android" />
