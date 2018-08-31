@@ -131,6 +131,13 @@ public class StepDetailsListFragment extends Fragment implements ExoPlayer.Event
         }
         return rootView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        exoPlayer(steps.get(position));
+    }
+
     public void nextBtn(final List<Step> steps){
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
