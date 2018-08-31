@@ -1,3 +1,3 @@
 # Just-Baking
 Udacity Nanodegree Project 3.
-![Mobile Home](/ScreenShots/Mobile_Home.png =250x250)
+<img src="/ScreenShots/Mobile_Home.png" width="200" height="400"/>
